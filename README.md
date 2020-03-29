@@ -41,10 +41,9 @@ What we meanly need to know before implementing codes is the pipeline of FDK alg
    - weighting
    - filtering
    - back projection
-<br>P/BP models
-   - Voxel-driven
-   - Pixel-driven
-   - Distance-driven
+   	- Voxel-driven
+   	- Pixel-driven
+   	- Distance-driven
 
 <div style="text-align:center"><img src="IMG/theoreticbasis.png" width="600" ></div>
 
@@ -68,7 +67,7 @@ Pixel-driven P/BP methods work by tracing rays through the image, essentially di
    - Not straightforward to parallelize. 
 
 
-### Distance-driven(ray-driven)
+### Distance-driven(Ray-driven)
 <div style="text-align:center"><img src="IMG/distancedriven.png" width="600" ></div>
 
 <br>BP Path: This method projects the boundary of each voxel and the boundary of each pixel unit of the detector onto a common plane(if 3d reconstruction)/common axis(if 2d reconstruction).
@@ -79,11 +78,11 @@ Pixel-driven P/BP methods work by tracing rays through the image, essentially di
 
 
 ### Programming references:
-<br>[ITK](https://itk.org/ItkSoftwareGuide.pdf)
+[ITK](https://itk.org/ItkSoftwareGuide.pdf)
 <br>[RTK](http://www.openrtk.org/Doxygen/index.html)
 <br>[CUDA](https://docs.nvidia.com/cuda/)
 <br> My designation for CUDA GPUs is shown below:
-<div style="text-align:center"><img src="IMG/cudathreaddesign.png" width="600" ></div>
+<div style="text-align:center"><img src="IMG/cudathreaddesign.png" width="800" ></div>
 
 <br>My cute dd fdk reconstruction algorithm was tested on a medical software product and won an outstanding graduation thesis award in 2018.
 
