@@ -9,7 +9,7 @@ In this research, a variety of back-projection methods are compared, and a versi
 Both the algorithm and the optimized version are implemented using the CPU and the CUDA parallel computing platform.
 
 Techniques:
-   - Algorithms/Models: Three-dimensional reconstruction, back-projection reconstruction, FDK, Distance-driven
+   - Algorithms/Models: Three-dimensional reconstruction, back-projection reconstruction, FDK, Distance-driven, Voxel-driven, Pixel-driven
    - Frameworks/Libraries: RTK, ITK
    - Languages: C++, CUDA C
    
@@ -32,3 +32,60 @@ Important References:
 
 ## Key words
 Three-dimensional reconstruction, CBCT, back-projection reconstruction, FDK, Distance-driven
+
+### Background Knowledge
+
+What we meanly need to know before implementing codes is the pipeline of FDK algorithms and different Projection/BackProjection(P/BP) models
+FDK algorithms
+   - weighting
+   - filtering
+   - back projection
+P/BP models
+   - Voxel-driven P/BP models
+   - Pixel-driven P/BP models
+   - Distance-driven P/BP models
+
+<div style="text-align:center"><img src="IMG/theoreticbasis.png" width="600" ></div>
+
+<br>Voxel-driven
+<div style="text-align:center"><img src="IMG/voxeldriven.png" width="600" ></div>
+BP Path: connection between the source and the center of each voxel of the phantom
+BP value: the interpolation result at the intersection of the ray and the detector
+   - Works well for forward projection. 
+   - Tends to introduce Moiré pattern artefacts in backprojection   
+   - Difficult to be parallelized because they access memory in a non-sequential pattern
+
+<br>Pixel-driven
+<div style="text-align:center"><img src="IMG/pixeldriven.png" width="600" ></div>
+Pixel-driven P/BP methods work by tracing rays through the image, essentially discretizing the line integral directly, and thus approximating each line integral as a weighted sum of all image pixels that lie close to the ideal line.
+
+BP Path: connection between the source and the center of each pixel unit of the detector
+BP value: the weighted sum of attenuation coefficients of all voxels that lie close to the ray
+
+   -  Suitable for hardware implementation with specialized circuit . 
+   - Tends to introduce Moiré pattern artefacts in backprojection   
+   - Not straightforward to parallelize. 
+
+
+<br>Distance-driven(ray-driven)
+<div style="text-align:center"><img src="IMG/distancedriven.png" width="600" ></div>
+
+BP Path: This method projects the boundary of each voxel and the boundary of each pixel unit of the detector onto a common plane(if 3d reconstruction)/common axis(if 2d reconstruction).
+BP value: The distance driven kernel uses the length of overlap between each source and each destination to perform a weighted sum of the source values.
+   - Distance-driven is a novel projection and backprojection approach that has a low arithmetic complexity, a highly sequential (and thus predictable) memory access pattern, and that avoids the artefact characteristics of voxel-driven backprojection and pixel-driven projection.
+
+   - RTK doesn’t have open source code for distance-driven methods
+
+
+### Programming references
+[ITK](https://itk.org/ItkSoftwareGuide.pdf)
+[RTK](http://www.openrtk.org/Doxygen/index.html)
+[CUDA](https://docs.nvidia.com/cuda/)
+<br> My designation for CUDA GPUs is shown below:
+<div style="text-align:center"><img src="IMG/distancedriven.png" width="600" ></div>
+
+<br>My cute dd fdk reconstruction algorithm was tested on a medical software product and won an outstanding graduation thesis award in 2018.
+
+<br>copyright
+<br>xiaoma1002
+
